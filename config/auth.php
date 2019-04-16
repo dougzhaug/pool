@@ -47,7 +47,7 @@ return [
         ],
 
         'api' => [
-            'driver' => 'token',
+            'driver' => 'jwt',
             'provider' => 'users',
         ],
     ],
@@ -72,18 +72,13 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\User::class,
+            'model' => App\Models\User::class,
         ],
 
         'admins' => [
             'driver' => 'eloquent',
             'model' => App\Models\Admin::class,
         ],
-
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
     ],
 
     /*
@@ -108,5 +103,30 @@ return [
             'expire' => 60,
         ],
     ],
+
+
+    /*
+    |--------------------------------------------------------------------------
+    |   第三方登录用户信息更新过期时间
+    |--------------------------------------------------------------------------
+    |
+    | You may specify multiple password reset configurations if you have more
+    | than one user table or model in the application and you want to have
+    | separate password reset settings based on the specific user types.
+    |
+    */
+    'sns_user_update_expires'=> env('SNS_USER_UPDATE_EXPIRES', 604800),
+
+    /*
+    |--------------------------------------------------------------------------
+    |   第三方登录用户默认登录密码
+    |--------------------------------------------------------------------------
+    |
+    | You may specify multiple password reset configurations if you have more
+    | than one user table or model in the application and you want to have
+    | separate password reset settings based on the specific user types.
+    |
+    */
+    'sns_user_default_password'=> env('SNS_USER_DEFAULT_PASSWORD', 'd0e1f2a3u4l5t6'),
 
 ];

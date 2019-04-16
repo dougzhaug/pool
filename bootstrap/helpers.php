@@ -6,6 +6,20 @@
  * Time: 16:36
  */
 
+if (! function_exists('make_username')) {
+    /**
+     * 生成用户名
+     *
+     * @param int $length
+     * @param bool $prefix
+     * @return string
+     */
+    function make_username($length=19,$prefix=false)
+    {
+        return $prefix ? : 'Spen_' . str_random($length);
+    }
+}
+
 if (! function_exists('admin_asset')) {
     /**
      * 后台资源路径

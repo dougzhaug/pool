@@ -25,6 +25,7 @@ $api->group($params, function ($api) {
      */
     $api->group(['namespace' => 'Auth'],function ($api){
         $api->post('/mini_program/login','MiniProgram\LoginController@index');
+        $api->post('/mini_program/get_user_info','MiniProgram\LoginController@getUserInfo');
     });
 
     /**
