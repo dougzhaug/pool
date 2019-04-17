@@ -32,7 +32,9 @@ class LoginController extends Controller
         }
         $token = auth('api')->login($userModel);
 
-        return $token;
+        header('Authorization: Bearer ' . (string)$token);
+
+        return [];
 
     }
 }

@@ -70,5 +70,6 @@ class Kernel extends HttpKernel
         'menu' => \App\Http\Middleware\MakeMenu::class,
         'permission' => \App\Http\Middleware\VerifyPermission::class,
         'beforeRequest' => \App\Http\Middleware\BeforeRequest::class,
+        'token.refresh'=>\App\Http\Middleware\Api\RefreshJwtToken::class,
     ];
 }

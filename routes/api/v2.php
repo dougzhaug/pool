@@ -32,6 +32,6 @@ $api->group($params, function ($api) {
      * V2
      */
     $api->group(['namespace' => 'V2'],function ($api){
-        $api->get('/','IndexController@index');
+        $api->get('/get_user_info','IndexController@index');
     });
 });
