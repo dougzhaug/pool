@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Api\Auth\MiniProgram;
 
+use App\Http\Controllers\Api\BaseController;
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
-class LoginController extends Controller
+class LoginController extends BaseController
 {
     //
     public function index(Request $request)
@@ -34,7 +34,7 @@ class LoginController extends Controller
 
         header('Authorization: Bearer ' . (string)$token);
 
-        return [];
+        return $this->response->noContent();
 
     }
 }

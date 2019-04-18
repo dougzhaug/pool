@@ -16,9 +16,10 @@ class CreatePoolsTable extends Migration
         Schema::create('pools', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('subject_id')->default(0)->comment('类目id');
+            $table->unsignedInteger('sn')->default(0)->comment('序号');
             $table->string('question')->default('')->comment('题');
             $table->text('answers')->comment('答案');
-            $table->tinyInteger('status')->default(-1)->comment('状态 -1:禁用 1:启用');
+            $table->tinyInteger('status')->default(1)->comment('状态 -1:禁用 1:启用');
             $table->timestamps();
         });
     }

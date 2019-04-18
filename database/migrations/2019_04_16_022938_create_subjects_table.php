@@ -16,7 +16,8 @@ class CreateSubjectsTable extends Migration
         Schema::create('subjects', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->default('')->comment('类目名称');
-            $table->tinyInteger('status')->default(-1)->comment('状态 -1:禁用 1:启用');
+            $table->text('profile')->comment('简介');
+            $table->tinyInteger('status')->default(1)->comment('状态 -1:禁用 1:启用');
             $table->timestamps();
         });
     }

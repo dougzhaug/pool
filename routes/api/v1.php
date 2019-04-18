@@ -32,6 +32,7 @@ $api->group($params, function ($api) {
      * V1
      */
     $api->group(['namespace' => 'V1'],function ($api){
-        $api->get('/get_user_info','IndexController@index');
+        $api->get('/subjects','IndexController@index');
+        $api->get('/pools/{subject}/{keyword?}','PoolsController@index');
     });
 });
