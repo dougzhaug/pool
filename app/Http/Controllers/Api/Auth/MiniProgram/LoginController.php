@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Auth\MiniProgram;
 use App\Http\Controllers\Api\BaseController;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpKernel\Exception\PreconditionRequiredHttpException;
 
 class LoginController extends BaseController
 {
@@ -12,7 +13,7 @@ class LoginController extends BaseController
     public function index(Request $request)
     {
         if(!$request->code || !$request->iv || !$request->encryptedData){
-            throw new \Symfony\Component\HttpKernel\Exception\PreconditionRequiredHttpException('数据异常',null,2222);
+            throw new PreconditionRequiredHttpException('参数异常');
         }
 
         $miniProgram = app('wechat.mini_program');
@@ -26,6 +27,7 @@ class LoginController extends BaseController
             $create['username'] = make_username();
             $create['openid']=$user['openId'];
             $create['nickname']=$user['nickName'];
+            $create['avatar']=$user['avatarUrl'];
             $create['password']=bcrypt(config('auht.sns_user_default_password'));
             $create['expires']=date('Y-m-d H:i:s',time()+config('auth.sns_user_update_expires'));
             $userModel = User::create($create);

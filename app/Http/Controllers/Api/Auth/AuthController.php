@@ -18,7 +18,8 @@ class AuthController extends BaseController
         parent::__construct();
         $this->middleware([
             'token.refresh',
-            'auth:api'
+            'auth:api',
+            'beforeRequest',
         ]);
     }
 }

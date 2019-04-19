@@ -33,6 +33,10 @@ $api->group($params, function ($api) {
      */
     $api->group(['namespace' => 'V1'],function ($api){
         $api->get('/subjects','IndexController@index');
+        $api->get('/pools/get_next_or_last/{type}/{sn}/{tab_type}','PoolsController@getNextOrLast');
+        $api->get('/pools/show/{id}','PoolsController@show');
         $api->get('/pools/{subject}/{keyword?}','PoolsController@index');
+        $api->put('/pools/status','PoolsController@status');
+        $api->get('/my','MyController@index');
     });
 });

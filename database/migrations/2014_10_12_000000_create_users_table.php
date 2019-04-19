@@ -28,6 +28,7 @@ class CreateUsersTable extends Migration
             $table->tinyInteger('gender')->default(0)->comment('性别 0:未知 1:男 2:女');
             $table->string('union_id')->default('')->comment('UNIONID');
             $table->string('password')->comment('密码');
+            $table->unsignedInteger('point')->default(0)->comment('积分');
             $table->tinyInteger('status')->default(-1)->comment('状态 -1:禁用 1:启用');
             $table->timestamp('expires')->comment('用户信息刷新标识（防止用户修改信息后没有及时更新）');
             $table->rememberToken();

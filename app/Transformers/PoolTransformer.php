@@ -10,6 +10,7 @@ namespace App\Transformers;
 
 
 use App\Models\Pool;
+use App\Models\UserPool;
 use Dingo\Api\Http\Request;
 use Dingo\Api\Transformer\Binding;
 use League\Fractal\TransformerAbstract;
@@ -24,7 +25,8 @@ class PoolTransformer extends TransformerAbstract
             'id'=> $pool->id,
             'question'=> $pool->question,
             'answers'=> $pool->answers,
-            'sn'=> $pool->sn
+            'sn'=> $pool->sn,
+            'status' => $pool->pivot->status
         ];
     }
 }

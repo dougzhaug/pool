@@ -5,14 +5,11 @@ namespace App\Models;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements JWTSubject
 {
     //
     use Notifiable;
-
-//    protected $guard_name = 'api';
 
     /**
      * The attributes that are mass assignable.
@@ -20,7 +17,7 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'username','openid','phone','email','nickname','avatar','country','province','city','language','gender','union_id','password','status','expires'
+        'username','openid','phone','email','nickname','avatar','country','province','city','language','gender','union_id','password','status','expires','point'
     ];
 
     /**
@@ -50,5 +47,15 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    /**
+     * 多对多-获取题信息
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function pools()
+    {
+        return $this->belongsToMany('App\Models\Pool','user_pool')->withPivot('user_id','pool_id','status');
     }
 }
