@@ -17,7 +17,7 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'username','openid','phone','email','nickname','avatar','country','province','city','language','gender','union_id','password','status','expires','point'
+        'subject_id','username','openid','phone','email','nickname','avatar','country','province','city','language','gender','union_id','password','status','expires','point'
     ];
 
     /**
@@ -57,5 +57,14 @@ class User extends Authenticatable implements JWTSubject
     public function pools()
     {
         return $this->belongsToMany('App\Models\Pool','user_pool')->withPivot('user_id','pool_id','status');
+    }
+
+    /**
+     * 一对多（反向）获取所属科目
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function subject(){
+        return $this->belongsTo('App\Models\Subject');
     }
 }

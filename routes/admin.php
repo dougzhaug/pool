@@ -54,5 +54,10 @@ Route::namespace('Admin')->group(function () {
     Route::post('roles/permission_tree/{role?}', 'Rbac\RolesController@permissionTree')->name('roles.permission_tree');
     Route::post('roles/status/{role?}', 'Rbac\RolesController@status')->name('roles.status');
 
+    //题库管理
+    Route::post('pools/index', 'PoolsController@index')->name('pools.index');
+    Route::resource('pools','PoolsController');
+    Route::post('pools/status/{pool}', 'PoolsController@status')->name('pools.status');
+
 });
 

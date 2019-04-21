@@ -23,8 +23,8 @@ class PoolsController extends AuthController
      */
     public function index(Request $request)
     {
-        $user = Auth::user();
-        $builder = $user->pools();
+
+        $builder = $request->user->pools()->where('subject_id',$request->user['subject_id']);
         if(in_array($request->keyword,['all','read','unread'])){
             switch ($request->keyword){
                 case 'all':
@@ -41,7 +41,7 @@ class PoolsController extends AuthController
             }
 
         }
-        $pools = $builder->paginate(25);
+        $pools = $builder->orderBy('sn','asc')->paginate($request->per_page??config('paginate.per_page'));
 
         return $this->response->paginator($pools, new PoolTransformer());
     }
@@ -98,7 +98,7 @@ class PoolsController extends AuthController
     public function getNextOrLast(Request $request)
     {
 
-        $builder = $request->user->pools();
+        $builder = $request->user->pools()->where('subject_id',$request->user['subject_id']);
 
         switch ($request->type){    //判断上一个/下一个
             case 'next':
@@ -115,10 +115,10 @@ class PoolsController extends AuthController
             case 'all':
                 break;
             case 'read':
-                $builder->where('user_pool.status',1);
+                $builder->wherePivot('status',1);
                 break;
             case 'unread':
-                $builder->where('user_pool.status',-1);
+                $builder->wherePivot('status',-1);
                 break;
             default:
         }

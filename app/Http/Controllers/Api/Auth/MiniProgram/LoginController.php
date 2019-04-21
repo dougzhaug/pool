@@ -25,6 +25,7 @@ class LoginController extends BaseController
         if(!$userModel){
             $create = $user;
             $create['username'] = make_username();
+            $create['subject_id'] = 1;          //默认用户为第一个科目
             $create['openid']=$user['openId'];
             $create['nickname']=$user['nickName'];
             $create['avatar']=$user['avatarUrl'];

@@ -445,3 +445,21 @@ if (!function_exists('file_format')) {
         }
     }
 }
+
+if (!function_exists('get_string_hash')) {
+    /**
+     * @param $string
+     * @param $tab_count
+     * @return int
+     */
+    function get_string_hash($string, $tab_count=10)
+    {
+        $unsign = sprintf('%u', crc32($string));
+        if ($unsign > 2147483647)  // sprintf u for 64 & 32 bit
+        {
+            $unsign -= 4294967296;
+        }
+        return abs($unsign) % $tab_count;
+    }
+}
+

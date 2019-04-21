@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Pool;
+use App\Models\Subject;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class PoolsController extends Controller
+class PoolsController extends AuthController
 {
     /**
      * 列表
@@ -18,7 +20,7 @@ class PoolsController extends Controller
 
             $columns = $request->columns;
 
-            $builder = Admin::select(['id','name','phone','email','status','created_at']);
+            $builder = Pool::select(['pools.id','question','answers','sn' ,'pools.status','subjects.name as subject','pools.created_at'])->join('subjects','subjects.id','=','pools.subject_id');
 
             /* where start*/
 
@@ -57,6 +59,108 @@ class PoolsController extends Controller
         }
 
         $this->setDropdownFiles(['name'=>'姓名','phone'=>'手机号','email'=>'邮箱']);
-        return view('admin.admins.index');
+        return view('admin.pools.index');
+    }
+
+    public function create()
+    {
+        $subjects = Subject::where(['status'=>1])
+            ->select('id','id as value','name')->get()->toArray();
+        return view('admin.pools.create',['subjects'=>$subjects]);
+    }
+
+    public function store(Request $request)
+    {
+        $this->validator($request->all(),[
+            'subject_id' => 'required',
+            'sn' => 'required',
+            'question' => 'required',
+            'answers' => 'required',
+        ]);
+
+        $create = $request->post();
+
+        $create['status'] = $create['status']??0?1:0;
+
+        $result = Pool::create($create);
+
+        if($result){
+            return success('添加成功','pools');
+        }else{
+            return error('网络异常');
+        }
+
+    }
+    /**
+     * @param Admin $admin
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function edit(Pool $pool)
+    {
+        $subjects = Subject::where(['status'=>1])
+            ->select('id','id as value','name')->get()->toArray();
+        return view('admin.pools.edit',['pool'=>$pool,'subjects'=>$subjects]);
+    }
+
+    /**
+     * @param Request $request
+     * @param Admin $admin
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update(Request $request, Pool $pool)
+    {
+        //
+        $this->validator($request->all(),[
+            'subject_id' => 'required',
+            'sn' => 'required',
+            'question' => 'required',
+            'answers' => 'required',
+        ]);
+
+        $update = $request->post();
+
+        $update['status'] = $update['status']??0?1:0;
+
+        $result = $pool->update($update);
+
+        if($result){
+            return success('编辑成功','pools');
+        }else{
+            return error('网络异常');
+        }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param Admin $admin
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
+     */
+    public function destroy(Pool $pool)
+    {
+        $result = $pool->delete();
+        if($result){
+            return success('删除成功','pools');
+        }else{
+            return error('网络异常');
+        }
+    }
+
+    /**
+     * 状态切换
+     *
+     * @param Admin $admin
+     * @param Request $request
+     * @return array
+     */
+    public function status(Pool $pool,Request $request)
+    {
+        $result = $pool->update(['status'=>$request->status==1 ? -1 : 1]);
+        if($result !== false){
+            return ['errorCode'=>0,'message'=>'修改成功'];
+        }else{
+            return ['errorCode'=>1,'message'=>'网络异常'];
+        }
     }
 }
