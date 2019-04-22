@@ -11,8 +11,6 @@ class AdminsTableSeeder extends Seeder
      */
     public function run()
     {
-        //
-
         $insertData = [
             [
                 'id' => 101,
@@ -25,7 +23,7 @@ class AdminsTableSeeder extends Seeder
 
         DB::table('admins')->insert($insertData);
 
-        factory(\App\Models\Admin::class, 100)->create();
+//        factory(\App\Models\Admin::class, 100)->create();
 
     }
 }

@@ -75,7 +75,7 @@
                 <div class="col-sm-9">
 
                     {{-- Switchery 开关插件 --}}
-                    @include('layouts.plugins.Switchery',['name'=>'status'])
+                    @include('layouts.plugins.Switchery',['name'=>'status','checked'=>true])
 
                 </div>
             </div>

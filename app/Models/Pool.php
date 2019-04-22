@@ -24,4 +24,14 @@ class Pool extends Model
     public function subject(){
         return $this->belongsTo('App\Models\Subject');
     }
+
+    /**
+     * 多对多-获取user信息
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function users()
+    {
+        return $this->belongsToMany('App\Models\User','user_pool');
+    }
 }

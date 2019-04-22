@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Jobs\SyncUserPool;
 use App\Models\Pool;
 use App\Models\Subject;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -62,6 +64,11 @@ class PoolsController extends AuthController
         return view('admin.pools.index');
     }
 
+    /**
+     * 添加
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function create()
     {
         $subjects = Subject::where(['status'=>1])
@@ -69,6 +76,12 @@ class PoolsController extends AuthController
         return view('admin.pools.create',['subjects'=>$subjects]);
     }
 
+    /**
+     * 添加程序
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function store(Request $request)
     {
         $this->validator($request->all(),[
@@ -78,13 +91,20 @@ class PoolsController extends AuthController
             'answers' => 'required',
         ]);
 
-        $create = $request->post();
-
-        $create['status'] = $create['status']??0?1:0;
-
-        $result = Pool::create($create);
+        $pool = new Pool();
+        $pool->subject_id = $request->subject_id;
+        $pool->sn = $request->sn;
+        $pool->question = $request->question;
+        $pool->answers = $request->answers;
+        $pool->status = $request->status??0?1:0;
+        $result = $pool->save();
 
         if($result){
+            //添加队列
+            $user = User::all();
+            foreach ($user as $k=>$v){
+                SyncUserPool::dispatch($pool,$v);
+            }
             return success('添加成功','pools');
         }else{
             return error('网络异常');
@@ -92,7 +112,9 @@ class PoolsController extends AuthController
 
     }
     /**
-     * @param Admin $admin
+     * 编辑
+     *
+     * @param Pool $pool
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function edit(Pool $pool)
@@ -103,8 +125,10 @@ class PoolsController extends AuthController
     }
 
     /**
+     * 编辑程序
+     *
      * @param Request $request
-     * @param Admin $admin
+     * @param Pool $pool
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, Pool $pool)
@@ -131,26 +155,26 @@ class PoolsController extends AuthController
     }
 
     /**
-     * Remove the specified resource from storage.
+     * 删除
      *
-     * @param Admin $admin
-     * @return \Illuminate\Http\RedirectResponse
+     * @param Pool $pool
+     * @return array
      * @throws \Exception
      */
     public function destroy(Pool $pool)
     {
         $result = $pool->delete();
-        if($result){
-            return success('删除成功','pools');
+        if($result !== false){
+            return ['errorCode'=>0,'message'=>'删除成功'];
         }else{
-            return error('网络异常');
+            return ['errorCode'=>1,'message'=>'网络异常'];
         }
     }
 
     /**
      * 状态切换
      *
-     * @param Admin $admin
+     * @param Pool $pool
      * @param Request $request
      * @return array
      */

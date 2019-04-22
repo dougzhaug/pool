@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Auth\MiniProgram;
 
 use App\Http\Controllers\Api\BaseController;
+use App\Http\Controllers\Service\UserInitService;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\PreconditionRequiredHttpException;
@@ -32,6 +33,7 @@ class LoginController extends BaseController
             $create['password']=bcrypt(config('auht.sns_user_default_password'));
             $create['expires']=date('Y-m-d H:i:s',time()+config('auth.sns_user_update_expires'));
             $userModel = User::create($create);
+            (new UserInitService($userModel))->init();
         }
         $token = auth('api')->login($userModel);
 
