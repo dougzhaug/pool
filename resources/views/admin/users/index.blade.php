@@ -3,19 +3,20 @@
 @section('box')
 
     <div class="box-header">
-        <form id="formSearch" class="form-horizontal" method="POST" action="{{url('pools/index')}}">
+        <form id="formSearch" class="form-horizontal" method="POST" action="{{url('users/index')}}">
 
             <div class="input-group margin search-input col-sm-3">
                 {{--多功能输入框--}}
                 @include('layouts.plugins.DropdownsInput',['dropdowns'=>$dropdowns])
             </div>
-            <div class="input-group margin search-input col-sm-2">
+            <div class="input-group margin search-input col-sm-4">
                 <span class="input-group-btn">
-                    <button class="btn btn-info" type="button">所属科目</button>
+                    <button class="btn btn-info" type="button">注册时间</button>
                 </span>
-                {{-- Select2 插件 --}}
-                @include('layouts.plugins.Select2',['name'=>'subject_id','options'=>$subjects])
+                {{--时间选择器--}}
+                @include('layouts.plugins.Daterangepicker')
             </div>
+
             <div class="input-group margin search-input">
                 <button type="button" onclick="doSearch()" id="searchBtn" class="btn btn-block btn-info" value="查询">查询</button>
             </div>
@@ -23,19 +24,19 @@
     </div>
 
     <div class="box-label">
-        <a href="{{url('pools/create')}}" class="btn btn-info">添加题目</a>
+        {{--<a href="{{url('users/create')}}" class="btn btn-info">添加用户</a>--}}
     </div>
 
     <!-- /.box-header -->
     <div class="box-body">
-        <table id="data-tables" class="table table-bordered table-striped" data-url="{{url('pools/index')}}">
+        <table id="data-tables" class="table table-bordered table-striped" data-url="{{url('users/index')}}">
             <thead>
             <tr>
                 <th data-name="id" data-sort="true">ID</th>
-                <th data-name="sn" data-sort="true" data-default-sort="desc">题号</th>
-                <th data-name="question">题目</th>
-                <th data-name="subject">科目</th>
-                {{--<th data-name="answers">答案</th>--}}
+                <th data-name="nickname">昵称</th>
+                <th data-name="openid">OpenID</th>
+                <th data-name="gender">性别</th>
+                <th data-name="subject">所属科目</th>
                 <th data-name="status">状态</th>
                 <th data-name="created_at">注册时间</th>
                 <th data-name="">操作</th>
@@ -50,10 +51,10 @@
             <tfoot>
             <tr>
                 <th>ID</th>
-                <th>题号</th>
-                <th>题目</th>
-                <th>科目</th>
-                {{--<th>答案</th>--}}
+                <th>昵称</th>
+                <th>OpenID</th>
+                <th>性别</th>
+                <th>所属科目</th>
                 <th>状态</th>
                 <th>注册时间</th>
                 <th>操作</th>
@@ -79,12 +80,40 @@
         {
             return [
                 {
-                    "targets": 4,   //状态
+                    "targets": 1,   //昵称
+                    "render": function (data,type,row){
+                        return `<img src="`+row.avatar+`" width="40" height="40" />`+row.nickname;
+                    }
+                },
+                {
+                    "targets": 3,   //性别
+                    "render": function (data,type,row){
+                        switch (row.gender) {
+                            case 0:
+                                return '未知';
+                                break;
+                            case 1:
+                                return '男';
+                                break;
+                            case 2:
+                                return '女';
+                                break;
+                        }
+                    }
+                },
+                {
+                    "targets": 4,   //所属科目
+                    "render": function (data,type,row){
+                        return row.subject.name;
+                    }
+                },
+                {
+                    "targets": 5,   //状态
                     "className": 'td-center',
                     "render": function (data,type,row){
                         var btn = row.status==1 ? 'info' : 'danger';
                         var i = row.status==1 ? 'check' : 'times';
-                        return `<button type="button" onclick="toggleStatus(this)" data-url="{{url('pools/status')}}`+`/` + row.id + `" data-status="` + row.status + `" class="btn btn-` + btn +` btn-circle"><i class="fa fa-` + i + `"></i> </button>`;
+                        return `<button type="button" onclick="toggleStatus(this)" data-url="{{url('users/status')}}`+`/` + row.id + `" data-status="` + row.status + `" class="btn btn-` + btn +` btn-circle"><i class="fa fa-` + i + `"></i> </button>`;
                     }
                 },
             ];
@@ -101,8 +130,8 @@
         function getButton(data,type,row)
         {
             var html = '';
-            html += '<a href="pools/'+data.id+'/edit" class="btn btn-info btn-xs tables-console tables-edit"><span class="glyphicon glyphicon-edit"></span>编辑</a>';
-            html += '<button data-url="pools/'+data.id+'" onclick="tablesDelete(this)" class="btn btn-danger btn-xs tables-console tables-delete"><span class="glyphicon glyphicon-trash"></span>删除</button>';
+            // html += '<a href="users/'+data.id+'/edit" class="btn btn-info btn-xs tables-console tables-edit"><span class="glyphicon glyphicon-edit"></span>编辑</a>';
+            html += '<button data-url="users/'+data.id+'" onclick="tablesDelete(this)" class="btn btn-danger btn-xs tables-console tables-delete"><span class="glyphicon glyphicon-trash"></span>删除</button>';
             return html;
         }
 

@@ -59,5 +59,10 @@ Route::namespace('Admin')->group(function () {
     Route::resource('pools','PoolsController');
     Route::post('pools/status/{pool}', 'PoolsController@status')->name('pools.status');
 
+    //用户管理
+    Route::post('users/index', 'UsersController@index')->name('users.index');
+    Route::resource('users','UsersController');
+    Route::post('users/status/{user}', 'UsersController@status')->name('users.status');
+
 });
 

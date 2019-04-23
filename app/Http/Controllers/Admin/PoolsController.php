@@ -30,6 +30,10 @@ class PoolsController extends AuthController
                 $builder->where($request->current_field,'like','%'.$request->keyword.'%');
             }
 
+            if($request->subject_id){
+                $builder->where('subject_id',$request->subject_id);
+            }
+
             if($request->date_range){
                 $builder->whereBetween('created_at',[$request->start_date,$request->end_date]);
             }
@@ -60,8 +64,10 @@ class PoolsController extends AuthController
             ];
         }
 
-        $this->setDropdownFiles(['name'=>'姓名','phone'=>'手机号','email'=>'邮箱']);
-        return view('admin.pools.index');
+        $this->setDropdownFiles(['question'=>'题目','sn'=>'题号']);
+        return view('admin.pools.index',[
+            'subjects' => Subject::getSubjectSelect(),
+        ]);
     }
 
     /**

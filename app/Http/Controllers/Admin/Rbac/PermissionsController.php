@@ -76,7 +76,7 @@ class PermissionsController extends AuthController
     {
         $this->validate($request, [
             'name' => ['required','unique:permissions'],
-            'title' => ['required','unique:permissions'],
+            'title' => ['required'],
         ]);
 
         $create = $request->post();
