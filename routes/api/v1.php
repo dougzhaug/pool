@@ -41,5 +41,8 @@ $api->group($params, function ($api) {
         $api->get('/my','MyController@index');
 
         $api->post('/feedback','FeedbackController@store');
+        
+        //测试
+        $api->post('/test/start','TestsController@start');
     });
 });
