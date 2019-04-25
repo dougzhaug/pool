@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Exceptions\Api\ApiConflictHttpException;
+use App\Exceptions\Api\ApiPreconditionFailedHttpException;
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Models\Test;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class TestsController extends AuthController
@@ -16,41 +17,56 @@ class TestsController extends AuthController
      */
     public function start(Request $request)
     {
-        $pause = Test::where(['user_id'=>$request->user['id'],'subject_id'=>$request->user['subject_id'],'status'=>-2])->first();
-        if($pause){
-            throw new ApiConflictHttpException(40701);
-        }
+
+        (new Test())->makeNewTest($request);
+
+        return $this->response->created();
     }
 
     /**
-     * 结束测试
+     * 提交测试
      */
-    public function end()
+    public function submit(Request $request)
     {
 
+        (new Test())->submitTest($request);
+
+        return $this->response->created();
     }
 
     /**
      * 暂停任务
      */
-    public function pause()
+    public function pause(Request $request)
     {
 
+        (new Test())->pauseTest($request);
+
+        return $this->response->created();
     }
 
     /**
      * 重新启动
      */
-    public function restart()
+    public function restart(Request $request)
     {
+        (new Test())->restartTest($request);
 
+        return $this->response->created();
     }
 
     /**
      * 从头再来
      */
-    public function startAllOver()
+    public function startAllOver(Request $request)
     {
+        $test = new Test();
+        //关闭暂停中的项目
+        $test->submitTest($request);
 
+        //重新开启一个新测试
+        $test->makeNewTest($request);
+
+        return $this->response->created();
     }
 }

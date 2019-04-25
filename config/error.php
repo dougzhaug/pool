@@ -8,6 +8,22 @@
  * Time: 16:58
  */
 return [
+
+    /**
+     * 系统异常
+     */
+    50101=>['message'=>'System exception','code'=>50101],
+
+    /**
+     * 网络异常
+     */
+    50201=>['message'=>'Network exception','code'=>50201],
+
+
+
+
+
+
     /**
      * admins(对应的表)
      */
@@ -43,6 +59,11 @@ return [
      */
     40700=>['message'=>'错误信息','code'=>40700],
     40701=>['message'=>'Test exists','code'=>40701],        //用户开始测试时存在暂停的测试
+    40702=>['message'=>'Test underway','code'=>40702],      //用户有正在进行的测试
+    40703=>['message'=>'Test submitted','code'=>40703],     //试卷已经提交
+    40704=>['message'=>'Test pausing','code'=>40704],       //试卷已经被暂停了
+    40705=>['message'=>'Test closing time','code'=>40705],  //试卷已经到交卷时间
+
 
     /**
      * feedback

@@ -20,8 +20,8 @@ class CreateTestsTable extends Migration
             $table->unsignedInteger('score')->default(0)->comment('测试得分');
             $table->tinyInteger('status')->default(-1)->comment('状态 -2:暂停 -1:初始值 1:进行中 2完成');
             $table->unsignedInteger('remainder')->default(0)->comment('暂停后记录剩余时间(秒)');
-            $table->timestamp('expires')->comment('到期时间（重新开始后，重新计算）');
-            $table->timestamp('submitted_at')->comment('提交时间');
+            $table->timestamp('expires')->nullable()->comment('到期时间（重新开始后，重新计算）');
+            $table->timestamp('submitted_at')->nullable()->comment('提交时间');
             $table->timestamps();
         });
     }

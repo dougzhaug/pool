@@ -44,5 +44,9 @@ $api->group($params, function ($api) {
         
         //测试
         $api->post('/test/start','TestsController@start');
+        $api->post('/test/submit','TestsController@submit');
+        $api->post('/test/pause','TestsController@pause');
+        $api->post('/test/restart','TestsController@restart');
+        $api->post('test/start_all_over','TestsController@startAllOver');
     });
 });
