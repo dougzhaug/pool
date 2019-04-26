@@ -37,4 +37,9 @@ class TestPool extends Model
     {
         return $this->where(['test_id'=>$test_id])->sum('score');
     }
+
+    public function pool()
+    {
+        return $this->belongsTo('App\Models\Pool');
+    }
 }
