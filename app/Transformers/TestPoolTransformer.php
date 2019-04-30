@@ -9,6 +9,7 @@
 namespace App\Transformers;
 
 use App\Models\TestPool;
+use Carbon\Carbon;
 use League\Fractal\TransformerAbstract;
 
 class TestPoolTransformer extends TransformerAbstract
@@ -25,7 +26,8 @@ class TestPoolTransformer extends TransformerAbstract
             'answers'=> $testPool->pool->answers,
             'full_marks'=>$testPool->pool->score,
             'sn'=> $testPool->pool->sn,
-            'status' => $testPool->pool->status
+            'status' => $testPool->pool->status,
+            'surplus' => (new Carbon())->diffInSeconds(Carbon::parse($testPool->test->expires),false)
         ];
     }
 }

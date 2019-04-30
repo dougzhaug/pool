@@ -102,12 +102,12 @@ class Test extends Model
             $this->subject_id=$request->user['subject_id'];
             $this->user_id =$request->user['id'];
             $this->status=1;
-            $this->expires= Carbon::now()->addMinutes(120);
+            $this->expires= Carbon::now()->addMinutes(config('pool.test_time'));
             $this->save();
 
             //生成测试数据
             $testPool = new TestPool();
-            $testPool->makeTestPool($this->id);
+            $testPool->makeTestPool($this->id,$request->user['subject_id']);
 
             //更新用户表中的test_id
             $request->user->update(['test_id'=>$this->id]);
@@ -157,10 +157,10 @@ class Test extends Model
 
             DB::commit();
 
-            return true;
+            return $score;
         }catch (\Exception $e){
             DB::rollBack();
-            Log::error($e->getMessage(),['class'=>__CLASS__ ,'method'=>__METHOD__]);
+            Log::error($e->getMessage(),['class'=>__CLASS__ ,'method'=>__METHOD__,'line'=>$e->getLine(),'code'=>$e->getCode()]);
             throw new ApiHttpException(50201);
         }
     }

@@ -43,11 +43,13 @@ $api->group($params, function ($api) {
         $api->post('/feedback','FeedbackController@store');
         
         //测试
-        $api->post('/test/start','TestsController@start');
-        $api->post('/test/submit','TestsController@submit');
-        $api->post('/test/pause','TestsController@pause');
-        $api->post('/test/restart','TestsController@restart');
-        $api->post('/test/start_all_over','TestsController@startAllOver');
+        $api->post('/tests/start','TestsController@start');
+        $api->post('/tests/submit','TestsController@submit');
+        $api->post('/tests/pause','TestsController@pause');
+        $api->post('/tests/restart','TestsController@restart');
+        $api->post('/tests/start_all_over','TestsController@startAllOver');
+        $api->get('/tests/get_status','TestsController@getStatus');
+        $api->get('/tests/list','TestsController@list');
 
         $api->post('/tests/get_test_question','TestsController@getTestQuestion');
     });
