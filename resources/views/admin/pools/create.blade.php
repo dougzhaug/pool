@@ -73,7 +73,7 @@
                 <label for="email" class="col-sm-2 control-label">分值</label>
 
                 <div class="col-sm-9">
-                    <input id="score" name="score" class="form-control" value="{{ old('score') }}" placeholder="分值">
+                    <input id="score" name="score" class="form-control" value="{{ old('score') ?? 10 }}" placeholder="分值">
                     @if ($errors->has('score'))
                         <span class="help-block">
                         <strong>{{ $errors->first('score') }}</strong>
@@ -85,7 +85,7 @@
                 <label for="email" class="col-sm-2 control-label">答题时间</label>
 
                 <div class="col-sm-9">
-                    <input id="answer_time" name="answer_time" class="form-control" value="{{ old('answer_time') }}" placeholder="答题时间（秒）">
+                    <input id="answer_time" name="answer_time" class="form-control" value="{{ old('answer_time') ?? 120 }}" placeholder="答题时间（秒）">
                     @if ($errors->has('answer_time'))
                         <span class="help-block">
                         <strong>{{ $errors->first('answer_time') }}</strong>
