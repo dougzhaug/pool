@@ -36,6 +36,8 @@
                 <th data-name="question">题目</th>
                 <th data-name="subject">科目</th>
                 {{--<th data-name="answers">答案</th>--}}
+                <th data-name="score">分值</th>
+                <th data-name="answer_time">答题时间</th>
                 <th data-name="status">状态</th>
                 <th data-name="created_at">注册时间</th>
                 <th data-name="">操作</th>
@@ -54,6 +56,8 @@
                 <th>题目</th>
                 <th>科目</th>
                 {{--<th>答案</th>--}}
+                <th>分值</th>
+                <th>答题时间</th>
                 <th>状态</th>
                 <th>注册时间</th>
                 <th>操作</th>
@@ -79,7 +83,7 @@
         {
             return [
                 {
-                    "targets": 4,   //状态
+                    "targets": 6,   //状态
                     "className": 'td-center',
                     "render": function (data,type,row){
                         var btn = row.status==1 ? 'info' : 'danger';

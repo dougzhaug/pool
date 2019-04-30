@@ -22,7 +22,7 @@ class PoolsController extends AuthController
 
             $columns = $request->columns;
 
-            $builder = Pool::select(['pools.id','question','answers','sn' ,'pools.status','subjects.name as subject','pools.created_at'])->join('subjects','subjects.id','=','pools.subject_id');
+            $builder = Pool::select(['pools.id','question','answers','sn', 'answer_time', 'score', 'pools.status','subjects.name as subject','pools.created_at'])->join('subjects','subjects.id','=','pools.subject_id');
 
             /* where start*/
 
@@ -95,6 +95,8 @@ class PoolsController extends AuthController
             'sn' => 'required',
             'question' => 'required',
             'answers' => 'required',
+            'score'=> 'required',
+            'answer_time'=>'required',
         ]);
 
         $pool = new Pool();
@@ -103,6 +105,8 @@ class PoolsController extends AuthController
         $pool->question = $request->question;
         $pool->answers = $request->answers;
         $pool->status = $request->status??0?1:0;
+        $pool->score = $request->score;
+        $pool->answer_time = $request->answer_time;
         $result = $pool->save();
 
         if($result){
@@ -145,6 +149,8 @@ class PoolsController extends AuthController
             'sn' => 'required',
             'question' => 'required',
             'answers' => 'required',
+            'score'=> 'required',
+            'answer_time'=>'required',
         ]);
 
         $update = $request->post();

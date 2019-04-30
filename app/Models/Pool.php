@@ -13,7 +13,7 @@ class Pool extends Model
      * @var array
      */
     protected $fillable = [
-        'subject_id', 'sn', 'question','answers' , 'status',
+        'subject_id', 'sn', 'question','answers' , 'status', 'score', 'answer_time',
     ];
 
     /**
