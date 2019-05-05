@@ -22,7 +22,7 @@
                 <div class="col-md-9">
 
                     {{-- Select2 插件 --}}
-                    @include('layouts.plugins.Select2',['name'=>'subject_id','options'=>$subjects])
+                    @include('layouts.plugins.Select2',['name'=>'subject_id','options'=>$subjects,'selected'=>$last_subject])
 
                     @if ($errors->has('subject_id'))
                         <span class="help-block">{{$errors->first('subject_id')}}</span>

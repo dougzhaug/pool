@@ -6,13 +6,14 @@ use App\Jobs\SyncUserPool;
 use App\Models\Pool;
 use App\Models\Subject;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
 class PoolsController extends AuthController
 {
     /**
      * 列表
+     *
      * @param Request $request
      * @return array|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
@@ -74,12 +75,14 @@ class PoolsController extends AuthController
      * 添加
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Exception
      */
     public function create()
     {
         $subjects = Subject::where(['status'=>1])
             ->select('id','id as value','name')->get()->toArray();
-        return view('admin.pools.create',['subjects'=>$subjects]);
+        $lastSubjects = cache('last_subject');     //上一次选中的科目
+        return view('admin.pools.create',['subjects'=>$subjects,'last_subject'=>$lastSubjects]);
     }
 
     /**
@@ -87,6 +90,7 @@ class PoolsController extends AuthController
      *
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Exception
      */
     public function store(Request $request)
     {
@@ -115,6 +119,8 @@ class PoolsController extends AuthController
             foreach ($user as $k=>$v){
                 SyncUserPool::dispatch($pool,$v);
             }
+
+            cache(['last_subject'=>$request->subject_id],Carbon::now()->addYears(10));
             return success('添加成功','pools');
         }else{
             return error('网络异常');
