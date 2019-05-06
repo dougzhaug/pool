@@ -24,7 +24,7 @@
 
     <div class="box-label">
         <a href="{{url('pools/create')}}" class="btn btn-info">添加题目</a>
-        <button type="button" class="btn btn-primary" style="margin-left: 10px;" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">批量添加</button>
+        <button type="button" class="btn btn-success" style="margin-left: 10px;" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">批量添加</button>
 
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
             <div class="modal-dialog" role="document">
@@ -36,7 +36,7 @@
                         <form id="batch" method="POST" action="{{url('pools/batch')}}" enctype="multipart/form-data">
                             {{ csrf_field() }}
                             <div class="form-group">
-                                <label for="recipient-name" class="control-label">文件:</label>
+                                <label for="recipient-name" class="control-label">题库:</label>
                                 <input type="file" name="batch" class=""> </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
@@ -59,8 +59,8 @@
         <table id="data-tables" class="table table-bordered table-striped" data-url="{{url('pools/index')}}">
             <thead>
             <tr>
-                <th data-name="id" data-sort="true">ID</th>
-                <th data-name="sn" data-sort="true" data-default-sort="desc">题号</th>
+                <th data-name="id" data-sort="true" data-default-sort="desc">ID</th>
+                <th data-name="sn" data-sort="true">题号</th>
                 <th data-name="question">题目</th>
                 <th data-name="subject">科目</th>
                 {{--<th data-name="answers">答案</th>--}}

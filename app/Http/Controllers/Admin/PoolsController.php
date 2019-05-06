@@ -217,10 +217,9 @@ class PoolsController extends AuthController
 
         if ($request->isMethod('post')) {
 
-//            $path = $request->file('batch')->store('excels');
-
             Excel::import(new PoolsImport, $request->file('batch'));
 
+            return success('批量添加成功','pools');
         }
     }
 }
