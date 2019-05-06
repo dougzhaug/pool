@@ -58,6 +58,7 @@ Route::namespace('Admin')->group(function () {
     Route::post('pools/index', 'PoolsController@index')->name('pools.index');
     Route::resource('pools','PoolsController');
     Route::post('pools/status/{pool}', 'PoolsController@status')->name('pools.status');
+    Route::post('pools/batch', 'PoolsController@batch');
 
     //用户管理
     Route::post('users/index', 'UsersController@index')->name('users.index');

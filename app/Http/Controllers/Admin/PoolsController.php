@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Imports\PoolsImport;
 use App\Jobs\SyncUserPool;
 use App\Models\Pool;
 use App\Models\Subject;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PoolsController extends AuthController
 {
@@ -203,6 +206,21 @@ class PoolsController extends AuthController
             return ['errorCode'=>0,'message'=>'修改成功'];
         }else{
             return ['errorCode'=>1,'message'=>'网络异常'];
+        }
+    }
+
+    /**
+     * 批量导入
+     */
+    public function batch(Request $request)
+    {
+
+        if ($request->isMethod('post')) {
+
+//            $path = $request->file('batch')->store('excels');
+
+            Excel::import(new PoolsImport, $request->file('batch'));
+
         }
     }
 }

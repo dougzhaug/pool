@@ -181,10 +181,14 @@ return [
          * Package Service Providers...
          */
 
-        /*
+        /**
          * 图片上传插件
-        */
+         */
         SunnyShift\Uploader\UploaderServiceProvider::class,
+        /**
+         * Excel文件处理插件
+         */
+        Maatwebsite\Excel\ExcelServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -245,6 +249,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
 
     ],
 

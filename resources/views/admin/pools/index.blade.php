@@ -24,6 +24,34 @@
 
     <div class="box-label">
         <a href="{{url('pools/create')}}" class="btn btn-info">添加题目</a>
+        <button type="button" class="btn btn-primary" style="margin-left: 10px;" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">批量添加</button>
+
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="exampleModalLabel1">批量添加</h4> </div>
+                    <div class="modal-body">
+                        <form id="batch" method="POST" action="{{url('pools/batch')}}" enctype="multipart/form-data">
+                            {{ csrf_field() }}
+                            <div class="form-group">
+                                <label for="recipient-name" class="control-label">文件:</label>
+                                <input type="file" name="batch" class=""> </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                <button type="submit" class="btn btn-primary">提交</button>
+                            </div>
+                        </form>
+                    </div>
+                    {{--<div class="modal-footer">--}}
+                        {{--<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>--}}
+                        {{--<button type="button" class="btn btn-primary batch-submit">提交</button>--}}
+                    {{--</div>--}}
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <!-- /.box-header -->
@@ -137,6 +165,12 @@
                 });
             });
         }
+
+        //提交批量添加
+        $('.batch-submit').on('click',function () {
+            alert(11);
+            $("#batch").submit();
+        })
 
     </script>
 @endpush

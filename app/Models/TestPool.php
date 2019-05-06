@@ -17,7 +17,11 @@ class TestPool extends Model
      */
     public function makeTestPool($test_id,$subject_id)
     {
-        $pools = Pool::inRandomOrder()->where(['subject_id'=>$subject_id])->take(config('pool.test_number'))->pluck('id'); //随机获取题目
+//        $pools = Pool::inRandomOrder()->where(['subject_id'=>$subject_id])->take(config('pool.test_number'))->pluck('id'); //随机获取题目
+        $pools10 = Pool::inRandomOrder()->where(['subject_id'=>$subject_id,'score'=>10])->take(3)->pluck('id')->toArray(); //随机获取三个10分题目
+        $pools20 = Pool::inRandomOrder()->where(['subject_id'=>$subject_id,'score'=>20])->take(2)->pluck('id')->toArray(); //随机获取二个20分题目
+
+        $pools = array_merge($pools10,$pools20);
 
         $create = [];
         foreach ($pools as $k=>$v){
